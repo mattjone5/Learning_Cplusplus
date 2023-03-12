@@ -4,6 +4,7 @@
 #include <vector>
 #include <format>
 
+// This is the class to hold what an employee is
 class Employee {
 private:
 	int salary;
@@ -19,7 +20,7 @@ public:
 	int getIsManager() {
 		return isManager;
 	}
-	virtual int getPay(){
+	virtual int getPay(){ // We make this virtual so the child classes can override it later
 		return 0;
 	}
 	void setSalary(int salary) {
@@ -42,7 +43,7 @@ class ManagerEmployee : public Employee {
 public:
 	ManagerEmployee(int salary = 0, std::string employeeID = "", int isManager = 2) : Employee(salary, employeeID, isManager){}
 	int getPay() {
-		return (getSalary() + (getSalary()*0.2)) / 12;
+		return (getSalary() + (getSalary()*0.2)) / 12; // Managers get a 20% bonus
 	}
 };
 
@@ -50,11 +51,11 @@ class WorkerEmployee : public Employee {
 public:
 	WorkerEmployee(int salary = 0, std::string employeeID = "", int isManager = 1) : Employee(salary, employeeID, isManager) {}
 	virtual int getPay() {
-		return (getSalary() - 1200) / 12;
+		return (getSalary() - 1200) / 12; // Workers get $1200 taken each year
 	}
 };
 
-std::vector<std::string> findEmployeeInFile(std::string employeeID) {
+std::vector<std::string> findEmployeeInFile(std::string employeeID) { // A vector is basically a nicer array
 	std::vector<std::string> result;
 	std::ifstream myFile;
 	std::string curLine;
@@ -64,7 +65,7 @@ std::vector<std::string> findEmployeeInFile(std::string employeeID) {
 			std::string curEmployeeID = curLine.substr(0, 8);
 			if (curEmployeeID.compare(employeeID) == 0) {
 				result.push_back(curEmployeeID);
-				curLine.erase(0, 9);
+				curLine.erase(0, 9); // There is maybe a better way to do this, but it works really good for now
 				int commaLoc = curLine.find(",");
 				result.push_back(curLine.substr(0, commaLoc));
 				curLine.erase(0, commaLoc+1);
